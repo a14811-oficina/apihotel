@@ -26,3 +26,22 @@ def __init__(self,hotel_id,nome,estrelas,diaria,cidade):
             "diaria": self.diaria,
             "cidade": self.cidade
         }
+    @classmethod
+    def find_hotel(cls, id_hotel):
+        hotel = cls.query.filter_by(hotel_id=id_hotel).first()# 0 ou 1
+        if hotel:
+            return hotel
+        return None
+    def save_hotel(self):
+        bd.session.add(self)
+        bd.session.commit()
+
+    def delete_hotel(self):
+        bd.session.delete(self)
+        bd.session.commit()
+
+    def update_hotel(self, nome_atualizada, estrelas_atualizadas, diaria_atualizada,cidade_atualizada):
+        self.nome = nome_atualizada
+        self.estrelas = estrelas_atualizadas 
+        self.diaria = diaria_atualizada
+        self.cidade = cidade_atualizada
