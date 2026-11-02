@@ -1,7 +1,8 @@
 from flask_restful import Resource, reqparse
 from models.user import UserModel
 from hmac import compare_digest
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import create_access_token, jwt_required,get_jwt
+from blocklist import BLOCKLIST
 
 
 # listar, inserir, atualizar e eliminar um hotel especificio
@@ -68,4 +69,8 @@ class UserLogin(Resource):
 
 
 class UserLogout(Resource):
-     ...
+     @jwt_required
+     def post(self):
+        jwt_id = get_jwt()["jti"] #identificador do token
+        BLOCKLIST.add(jwt_id)
+        return{"message": "User logged out successfully"}

@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required
 
 
 
+
 class Hoteis(Resource):
     def get(self,id_hotel):
         hotel_encontrado = HotelModel.find_hotel(id_hotel)
@@ -14,7 +15,7 @@ class Hoteis(Resource):
     @jwt_required()
 
     def post(self,id_hotel): 
-        dados = Hotel.argumentos.parse_args() # Dicionario
+        dados = Hoteis.argumentos.parse_args() # Dicionario
         hotel_encontrado = HotelModel.find_hotel(id_hotel)
         if hotel_encontrado:
                 return { "message": "Hotel with this id arleady exists"}
@@ -25,7 +26,7 @@ class Hoteis(Resource):
 
     @jwt_required
     def put(self,id_hotel): 
-            dados = Hotel.argumentos.parse_args() # Dicionario
+            dados = Hoteis.argumentos.parse_args() # Dicionario
             hotel_encontrado = HotelModel.find_hotel(id_hotel)
             if hotel_encontrado:
                 lista = [dado for dado in dados.value()]

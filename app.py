@@ -4,17 +4,29 @@ from resources.hotel import Hoteis, Hotel
 from con_sql import bd
 from resources.user import user, UserRegister, UserLogin, UserLogout
 from flask_jwt_extended import JWTManager
+from blocklist import BLOCKLIST
 
 #variavel representar a minha aplicação
 app = Flask(__name__)
+api = Api(app)
+jwt = JWTManager(app)
 
 #configuraçoes
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hoteis.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["JWT_SECRET_KEY"] = "a_minha_palavra_secreta_para_a_minha_api_vai_ser_forte"
+app.config["JWT_BLACKLIST_ENABLED"]= True
 
-api = Api(app)
-jwt = JWTManager(app)
+@jwt.token_in_blacklist_loader
+def verificar_blacklist(jwt_header,jwt_payload):
+    jti = jwt_payload["jti"]
+    return jti in BLOCKLIST
+
+@jwt.revoked_token_loader
+def token_revogado(jwt_header,jwt_payload):
+    return{"message": "You have no acess to this resource. Login please"}
+
+
 
 
 
