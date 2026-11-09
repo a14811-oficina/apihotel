@@ -7,6 +7,7 @@ class HotelModel (bd.Model):
     estrelas = bd.Column(bd.Float(precision=1))
     diaria = bd.Column(bd.Float(precision=2))
     cidade = bd.Column(bd.String(40))
+    utilizador = bd.column(bd.Integer, bd.create_allForeignKey(utilizador.user_id))
 
 
 

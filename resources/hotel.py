@@ -1,12 +1,12 @@
 from flask_restful import Resource, reqparse
 from models.hotel import HotelModel
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 
 
 class Hoteis(Resource):
-    def get(self,id_hotel):
+    def get(self,):
         hotel_encontrado = HotelModel.find_hotel(id_hotel)
         if hotel_encontrado:
                 return hotel_encontrado.json(),200
